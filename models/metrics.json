@@ -1,0 +1,12 @@
+{
+  "model_name": "Voting Ensemble (XGBoost + LightGBM + Random Forest)",
+  "target": "price (USD)",
+  "test_r2": 0.9836,
+  "test_mae_usd": 250.34,
+  "test_rmse_usd": 504.88,
+  "test_mape_pct": 5.72,
+  "cut_accuracy_pct": 81.52,
+  "clean_inventory_size": 53770,
+  "negative_predictions": 0,
+  "status": "Production-Ready"
+}

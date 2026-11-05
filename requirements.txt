@@ -1,0 +1,19 @@
+# Diamond Market Intelligence AI Platform
+# Production Dependencies for Local Execution and Streamlit Cloud Deployment
+
+numpy==2.5.1
+pandas==3.0.5
+scipy==1.18.1
+scikit-learn==1.9.0
+xgboost==3.4.1
+lightgbm==4.7.0
+joblib==1.5.3
+shap==0.54.1
+matplotlib==3.11.1
+seaborn==0.13.2
+plotly==7.0.0
+fastapi==0.142.2
+uvicorn==0.54.0
+pydantic==2.13.5
+streamlit==1.65.0
+httpx==0.28.1
