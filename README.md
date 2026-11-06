@@ -16,7 +16,7 @@
 [![Joblib](https://img.shields.io/badge/Joblib-Compressed%20Bundle-orange)](https://joblib.readthedocs.io/)
 [![SciPy](https://img.shields.io/badge/SciPy-1.18.1-8CAAE6?logo=scipy)](https://scipy.org/)
 [![GIA Standards](https://img.shields.io/badge/GIA-4Cs%20Compliant-navy)](https://www.gia.edu/)
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://diamondintelai.streamlit.app/)
+
 
 > [!TIP]
 > 💎 **Live Interactive Web Application:** **[diamondintelai.streamlit.app](https://diamondintelai.streamlit.app/)**  
