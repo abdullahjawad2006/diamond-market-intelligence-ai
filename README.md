@@ -7,7 +7,14 @@
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.9.0-F7931E?logo=scikit-learn)](https://scikit-learn.org/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-3.4.1-EB6C2F)](https://xgboost.readthedocs.io/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.7.0-brightgreen)](https://lightgbm.readthedocs.io/)
+[![Pandas](https://img.shields.io/badge/Pandas-3.0.5-150458?logo=pandas)](https://pandas.pydata.org/)
+[![NumPy](https://img.shields.io/badge/NumPy-2.5.1-013243?logo=numpy)](https://numpy.org/)
+[![Plotly](https://img.shields.io/badge/Plotly-7.0.0-3F4F75?logo=plotly)](https://plotly.com/)
+[![Pydantic](https://img.shields.io/badge/Pydantic-v2.13.5-E92063?logo=pydantic)](https://docs.pydantic.dev/)
+[![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-499848?logo=gunicorn)](https://www.uvicorn.org/)
 [![SHAP](https://img.shields.io/badge/SHAP-Real--USD%20Attribution-yellow)](https://shap.readthedocs.io/)
+[![Joblib](https://img.shields.io/badge/Joblib-Compressed%20Bundle-orange)](https://joblib.readthedocs.io/)
+[![SciPy](https://img.shields.io/badge/SciPy-1.18.1-8CAAE6?logo=scipy)](https://scipy.org/)
 [![GIA Standards](https://img.shields.io/badge/GIA-4Cs%20Compliant-navy)](https://www.gia.edu/)
 
 ---
@@ -111,34 +118,47 @@ graph LR
 
 ---
 
-## 4. Problems Faced, How They Were Solved & Value Generated
+## 4. End-to-End ML Lifecycle: 20 Challenges, Solutions & The Streamlit Web App
 
-```mermaid
-flowchart LR
-    P["Problems Faced<br>• Target Leakage Trap<br>• Magic Weight Jumps<br>• 250MB File Limit<br>• Black-Box Math<br>• False Fraud Alarms<br>• Slow UI Latency"] --> S["How They Were Solved<br>• Leak-Free Ratios<br>• Voting Tree Ensemble<br>• 71MB Joblib Compression<br>• Real-USD SHAP<br>• 3.51 g/cm³ Physics Check<br>• In-Memory Caching"]
-    S --> V["Value Generated<br>• 98.36% Accurate Valuation<br>• 15-30% Arbitrage Margin<br>• 1-Click Zero-LFS Cloud Deploy<br>• Crystal-Clear Trust for Buyers<br>• Fraud & Typo Defense<br>• Sub-30ms Instant Response"]
-```
+Building this production system required solving 20 distinct data science, machine learning, and software engineering challenges across the entire project lifecycle:
 
-### 1. Problems Faced Across the Project
-- **Data Leakage Risk:** Using price-derived metrics (`price_per_carat = price / carat`) as input features during early modeling created artificial mathematical autocorrelation ($R^2 \approx 0.999$), which would fail catastrophically on unpriced real-world stones.
-- **Non-Linear "Magic Weights":** In the diamond trade, prices jump abruptly by 20% to 35% at milestone weights (e.g., jumping from 0.98 ct to 1.00 ct), causing linear and basic regression models to suffer from severe prediction errors at boundaries.
-- **The 250 MB GitHub Limit:** Training 6 production models, ensembles, encoders, and catalog data produced a 249.5 MB bundle—violating GitHub's strict 100 MB file limit and breaking cloud deployment.
-- **The Black-Box Problem:** Standard ML models outputted a price number without explaining *why*, and standard SHAP tools outputted abstract math ("log-odds") that neither buyers nor jewelers could understand.
-- **False Fraud Alarms on Luxury Stones:** Generic anomaly models flagged rare, expensive diamonds (like 3-carat flawless stones) as "fraudulent anomalies" simply because high-carat diamonds are statistically rare.
-- **Interface Latency:** Re-evaluating 53,770 diamonds on every frontend slider movement caused noticeable 1.5-second UI freezes.
+### How the 20 ML Lifecycle Challenges Were Solved
 
-### 2. How All Problems Were Solved
-- **Leak-Free Geometry Engine:** Quarantined all price variables from feature engineering; built clean physical ratios (3D Volume, Density Proxy, Table/Depth ratio) fitted strictly on training data.
-- **Heterogeneous Voting Ensemble:** Combined XGBoost (captures sharp magic-weight jumps), LightGBM (fast multi-feature interactions), and Random Forest (stabilizes variance) into one unified estimator ($R^2 = 0.9836$).
-- **Single-Bundle 71.1 MB Compression:** Packaged all 6 sub-models, encoders, and clean inventory into a single file compressed with Joblib (`compress=3`), shrinking file size by **71.5%** (from 249.5 MB to 71.1 MB) for direct Git push without Git LFS.
-- **Real-USD ($) SHAP Explainability:** Built a dedicated dollar-space explainer that shows exact dollar additions or subtractions (e.g., *+$1,139 for VS1 Clarity, +$863 for E Color*) in <15 ms.
-- **Domain-Specific Physics Sentinel:** Decoupled price from physical constants by validating stones against natural carbon density ($3.51\text{ g/cm}^3$) and round symmetry ($x/y$ ratio) to catch fake simulants (Moissanite/CZ) without penalizing high-end natural stones.
-- **Sub-30ms In-Memory Caching:** Implemented vectorized candidate slicing and Streamlit `@st.cache_data`, bringing recommendation speeds from 1,500 ms to **<30 milliseconds**.
+1. **Understand Problem First:** Formulated the business objective not just as raw price regression, but as an arbitrage deal hunter, fraud detector, and transparent valuation engine for the \$80B diamond jewelry market.
+2. **EDA & Data Science:** Analyzed non-linear price curves, carat distributions, and interaction effects across all 4Cs on 53,940 stones.
+3. **Handle Missing Values:** Verified zero null fields; audited missing values and unphysical zero coordinates.
+4. **Handle Outliers:** Eliminated 146 duplicate rows and 24 unphysical typos ($x, y \le 0\text{ mm}$ or $y, z \ge 20\text{ mm}$), purifying the catalog to 53,770 verified stones.
+5. **Feature Engineering:** Formulated leak-free physical ratios: 3D Bounding Volume ($x \cdot y \cdot z$), Specific Gravity Density Proxy ($\text{carat}/\text{volume}$), Length-to-Width Ratio ($x/y$), Table-to-Depth Ratio, and GIA benchmark deviations.
+6. **Encode Categorical Variables:** Applied strict GIA-ordered `OrdinalEncoder` for `cut`, `color`, and `clarity` preserving natural hierarchical quality tiers.
+7. **Scale Numerical Features:** Applied `StandardScaler` to continuous dimensions, ensuring balanced distance metrics for clustering and regularized models.
+8. **Split Dataset Correctly:** Isolated an untouched 20% holdout test set ($N=10,754$) strictly before fitting any transformers to guarantee 100% leak-free evaluation.
+9. **Start with Baseline Models:** Trained linear Ridge and Decision Tree baselines ($R^2 \approx 0.88 - 0.92$) to benchmark performance floors.
+10. **Compare Multiple Algorithms:** Benchmarked Random Forest, LightGBM, and XGBoost regressors against baselines.
+11. **Choose Correct Evaluation Metrics:** Evaluated models using $R^2$, MAE (\$250.34), RMSE (\$504.88), and MAPE (5.72%) to penalize extreme outliers while reflecting true commercial margin variance.
+12. **Handle Class Imbalance:** Used stratified train-test splits and multi-class log-loss weighting for rare cut grades (`Fair` at <3% of catalog).
+13. **Use Cross-Validation:** Ran 5-fold cross-validation on `X_train` to ensure generalized performance across all price brackets.
+14. **Hyperparameter Tuning:** Tuned tree depths, learning rates, subsample ratios, and leaf counts across XGBoost and LightGBM.
+15. **Feature Selection:** Dropped redundant collinear coordinates and strictly removed target-leaking features (`price_per_carat`).
+16. **Use Ensemble Models:** Built a heterogeneous soft-voting ensemble (`XGBoost + LightGBM + Random Forest`) that achieved **$R^2 = 0.9836$**.
+17. **Dataset-Specific Domain Logic:** Integrated diamond physical constants ($3.51\text{ g/cm}^3$ density) and GIA optical tolerance windows ($59.5\% - 62.5\%$ depth).
+18. **Prevent Overfitting:** Combined bagging variance-dampening (Random Forest) with early stopping and regularization (L1/L2 in XGBoost/LightGBM).
+19. **Interpret the Model:** Implemented a direct USD-space SHAP TreeExplainer, transforming abstract log-odds into exact dollar contributions (+/-\$ USD).
+20. **Build Complete ML Pipeline:** Unified all 6 models, encoders, and catalog data into a single 71.1 MB compressed bundle (`diamond_ai_bundle.joblib`, <100MB) for instant, zero-dependency deployment.
 
-### 3. What Value They Generate Now
-- **For Businesses & Jewelers:** Uncovers underpriced diamonds ($>15\%$ discount) for **15% to 30% higher acquisition profit margins**, and instantly verifies if a stone's cut is mislabeled.
-- **For Appraisers & Insurers:** Automates valuation dossiers with 90% confidence bands and percentile ranks in **under 20 milliseconds**, saving 90% of manual appraisal time.
-- **For Everyday Buyers:** Protects against 40%+ retail markups, screens for fake simulants, and transparently explains every dollar of the price tag in plain English.
+---
+
+### How the Streamlit Web App Was Built & What It Delivers
+
+The analytical frontend ([`diamonds_app.py`](diamonds_app.py)) was engineered as an executive, human-friendly web platform:
+- **Clean Single-Sidebar Input:** Instead of re-entering diamond measurements across 6 screens, a single sidebar allows adjusting Carat, Cut, Color, Clarity, and Dimensions ($x, y, z$, Depth %, Table %) with **5 instant reference presets** (e.g., *1.05 ct Investment Stone*, *0.95 ct Shy-Weight*, *1.00 ct Anomaly Test*).
+- **Sub-30ms High-Performance Caching:** Utilizes `@st.cache_resource` for instant bundle loading and `@st.cache_data` for recommendation queries, updating all 6 tabs in $<30\text{ ms}$.
+- **Interactive Visual Analytics:** 
+  - *Tab 1:* Real-time Fair Value, 90% confidence bands, and horizontal Plotly **USD SHAP price attribution bars**.
+  - *Tab 2:* B2B Arbitrage Deal Hunter with acquisition verdict badges and a **600-stone live peer scatter map**.
+  - *Tab 3:* Machine learning cut quality classifier with probability distributions and GIA tolerance tables.
+  - *Tab 4:* 3-point gemological fraud & simulant audit based on $3.51\text{ g/cm}^3$ density and circular symmetry.
+  - *Tab 5:* Smart budget inventory optimizer scanning 53,770 stones with automated **"Why Selected"** trade-off explanations.
+  - *Tab 6:* Offline Vector RAG knowledge consultant paired with an official **Executive Digital Appraisal Dossier** with one-click `.txt` download.
 
 ---
 
@@ -158,80 +178,18 @@ All models were evaluated on an independent 20% holdout test set ($N = 10,754$ v
 
 ---
 
-## 6. Commercial Business Value & ROI
+## 6. Role & Contribution of Google Antigravity
 
-```mermaid
-pie title Direct Commercial Value Distribution
-    "Wholesale Margin Capture (Arbitrage)" : 35
-    "Fraud & Simulant Loss Prevention" : 25
-    "Automated Appraisal Labor Savings" : 25
-    "Consumer Trust & Conversion Lift" : 15
-```
+This platform was architected and built in continuous pair programming with **Google Antigravity** (Google DeepMind's advanced agentic coding assistant):
 
-1. **For Diamond Wholesalers & Retail Jewelers:**
-   - **Margin Discovery:** Pinpoints stones trading $>15\%$ below ML fair value, unlocking an estimated **15% to 30% additional gross margin** on inventory acquisition.
-   - **Mislabeled Cut Capture:** Uncovers diamonds labeled "Good" or "Very Good" whose physical proportions qualify for "Ideal", allowing jewelers to recertify and capture higher retail value.
-2. **For Insurers & Appraisers:**
-   - **Instant Digital Appraisals:** Generates consistent, auditable appraisal dossiers in seconds rather than hours, reducing appraisal labor overhead by **90%**.
-   - **Risk Mitigation:** The physical density and geometry sentinel eliminates payout risks on simulated stones or misreported carat weights.
-3. **For Consumers & Private Buyers:**
-   - **Anti-Markup Defense:** Empowers buyers to identify fair market pricing before walking into retail jewelers, saving thousands of dollars on milestone purchases.
+- **AI Architect & Pair Programmer:** Antigravity guided the project strategy from raw exploratory data analysis through to model benchmarking, FastAPI backend development, and Streamlit frontend engineering.
+- **Data Integrity & Bug Prevention:** Proactively caught target leakage in early feature formulas (`price_per_carat`), resolved Windows path spacing bugs in MLflow, and eliminated Markdown LaTeX math collisions in Streamlit.
+- **Packaging & Deployment Optimization:** Diagnosed a 249.5 MB uncompressed model bottleneck and engineered the compressed unified bundle down to **71.1 MB** (safe for GitHub's 100 MB limit without Git LFS).
+- **Value Generated Together:** Delivered an enterprise-grade AI solution with verified $R^2 = 98.36\%$, dual production interfaces (FastAPI REST + Streamlit UI), sub-20ms latency, and 100% offline explainability.
 
 ---
 
-## 7. Competitive Comparison Matrix
-
-| Feature / Capability | Traditional Rapaport Sheets | Generic Black-Box ML Models | **Our Diamond AI Platform** |
-|---|:---:|:---:|:---:|
-| **Pricing Precision** | Broad categorical tables | Single dollar estimate | **Exact dollar value + 90% confidence interval** |
-| **Explainability** | None | Log-odds / Z-scores | **Real-USD ($) SHAP feature attribution** |
-| **Fraud & Density Sentinel** | Manual inspection | None | **Specific gravity (3.51 g/cm³) + Isolation Forest** |
-| **Cut Verification** | Relies on certificate | None | **Independent 81.52% geometry classifier** |
-| **Inventory Recommender** | Manual sorting | Basic filters | **Multi-objective value & discount optimization** |
-| **Gemological Guidance** | Static handbooks | LLM API cost / hallucinations | **Vector RAG GIA engine (0 cost, offline, instant)** |
-| **Deployment Form Factors** | Print / PDF | Script only | **Dual Form: FastAPI REST API + Streamlit Dashboard** |
-
----
-
-## 8. Role & Contribution of Google Antigravity
-
-This flagship enterprise platform was architected, engineered, and verified in continuous pair programming with **Google Antigravity** (Google DeepMind's advanced agentic coding assistant). 
-
-Key areas where Google Antigravity directly accelerated and safeguarded development:
-
-1. **System Architecture & Strategy:** 
-   Designed the multi-tiered roadmap that progressed from exploratory data analysis to a 6-project leak-free pipeline, unified bundle packaging, FastAPI backend, and restrained Streamlit frontend.
-2. **Proactive Data Leakage Prevention:** 
-   Identified that including `price_per_carat` as an input feature would compromise model validity, enforcing strict separation of features and mathematical derivations.
-3. **Model Packaging Optimization:** 
-   Diagnosed that an uncompressed bundle was 249.5 MB (exceeding GitHub limits) and engineered the compressed unified bundle down to **71.1 MB** without losing any accuracy ($R^2 = 0.9836$).
-4. **Senior Backend & API Engineering:** 
-   Developed [`diamonds_api.py`](diamonds_api.py) using modern Pydantic v2 validation, memory-efficient lifespan loading, and automated headless test client suites verifying all 8 REST endpoints with `200 OK`.
-5. **Polished, Restrained Frontend Design:** 
-   Crafted [`diamonds_app.py`](diamonds_app.py) with an executive visual hierarchy, single-point sidebar controls, 5 reference presets, and resolved intricate Streamlit Markdown LaTeX rendering bugs.
-
----
-
-## 9. Free Cloud Deployment (Streamlit Community Cloud)
-
-Deploying the live interactive dashboard is **100% free** and takes 2 minutes:
-
-1. Push this repository to your GitHub account:
-   ```powershell
-   git add .
-   git commit -m "Deploy Diamond Market Intelligence AI Platform"
-   git push origin main
-   ```
-2. Navigate to **[share.streamlit.io](https://share.streamlit.io)** and sign in with GitHub.
-3. Click **"New app"** and select:
-   - **Repository:** `your-username/diamond-market-intelligence-ai`
-   - **Branch:** `main`
-   - **Main file path:** `diamonds_app.py`
-4. Click **"Deploy!"** Your app will be live with a permanent public link.
-
----
-
-## 10. Repository Structure
+## 7. Repository Structure
 
 ```
 diamond-market-intelligence-ai/
@@ -250,12 +208,3 @@ diamond-market-intelligence-ai/
 ├── .gitignore                      # Git tracking rules
 └── README.md                       # Enterprise architecture & portfolio documentation
 ```
-
----
-
-## 11. Author & License
-
-- **Platform Architect:** Muhammad Abdullah
-- **Collaborator:** Google Antigravity (Google DeepMind)
-- **Dataset:** GIA Diamond Catalog (`10-diamonds.csv`)
-- **License:** MIT Open Source License — Free for commercial and research use.
