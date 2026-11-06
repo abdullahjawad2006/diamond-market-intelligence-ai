@@ -180,12 +180,14 @@ All models were evaluated on an independent 20% holdout test set ($N = 10,754$ v
 
 ## 6. Role & Contribution of Google Antigravity
 
-This platform was architected and built in continuous pair programming with **Google Antigravity** (Google DeepMind's advanced agentic coding assistant):
+This platform was built through an agile pair-programming partnership between **Muhammad Abdullah** and **Google Antigravity** (Google DeepMind's advanced agentic coding assistant), teaming up across every stage of the lifecycle:
 
-- **AI Architect & Pair Programmer:** Antigravity guided the project strategy from raw exploratory data analysis through to model benchmarking, FastAPI backend development, and Streamlit frontend engineering.
-- **Data Integrity & Bug Prevention:** Proactively caught target leakage in early feature formulas (`price_per_carat`), resolved Windows path spacing bugs in MLflow, and eliminated Markdown LaTeX math collisions in Streamlit.
-- **Packaging & Deployment Optimization:** Diagnosed a 249.5 MB uncompressed model bottleneck and engineered the compressed unified bundle down to **71.1 MB** (safe for GitHub's 100 MB limit without Git LFS).
-- **Value Generated Together:** Delivered an enterprise-grade AI solution with verified $R^2 = 98.36\%$, dual production interfaces (FastAPI REST + Streamlit UI), sub-20ms latency, and 100% offline explainability.
+- **Data Science & EDA:** Audited 53,940 raw records, purged coordinate typos, and prevented data leakage by isolating clean geometric physical features.
+- **Machine Learning & Modeling:** Benchmarked algorithms and tuned a high-precision Voting Ensemble (XGBoost + LightGBM + Random Forest) achieving **$R^2 = 0.9836$** and **MAE = \$250**.
+- **Joblib Packaging & Compression:** Solved a 249.5 MB serialization bottleneck by compressing all 6 models and inventory into a single **71.1 MB** bundle (safe for GitHub without Git LFS).
+- **Diamonds API (`diamonds_api.py`):** Built an enterprise FastAPI service with strict Pydantic v2 validation, lifespan memory management, and 8 verified endpoints (<20ms latency).
+- **Streamlit Web App (`diamonds_app.py`):** Crafted a modern, restrained executive dashboard across 6 tabs with Plotly visuals, sub-30ms in-memory caching, and 1-click appraisal downloads.
+- **Value Delivered Together:** Transformed a raw CSV file into a production-grade, dual-interface AI platform with zero data leakage, real-USD SHAP explainability, and commercial readiness.
 
 ---
 
