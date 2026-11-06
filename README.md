@@ -16,6 +16,10 @@
 [![Joblib](https://img.shields.io/badge/Joblib-Compressed%20Bundle-orange)](https://joblib.readthedocs.io/)
 [![SciPy](https://img.shields.io/badge/SciPy-1.18.1-8CAAE6?logo=scipy)](https://scipy.org/)
 [![GIA Standards](https://img.shields.io/badge/GIA-4Cs%20Compliant-navy)](https://www.gia.edu/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://diamondintelai.streamlit.app/)
+
+> 💎 **Live Interactive Web Application:** **[diamondintelai.streamlit.app](https://diamondintelai.streamlit.app/)**  
+> Explore real-time AI valuations, B2B deal arbitrage, fraud screening, and GIA knowledge retrieval live in your browser.
 
 ---
 
@@ -149,7 +153,7 @@ Building this production system required solving 20 distinct data science, machi
 
 ### How the Streamlit Web App Was Built & What It Delivers
 
-The analytical frontend ([`diamonds_app.py`](diamonds_app.py)) was engineered as an executive, human-friendly web platform:
+The analytical frontend ([`diamonds_app.py`](diamonds_app.py)) is deployed live at **[diamondintelai.streamlit.app](https://diamondintelai.streamlit.app/)** and engineered as an executive, human-friendly web platform:
 - **Clean Single-Sidebar Input:** Instead of re-entering diamond measurements across 6 screens, a single sidebar allows adjusting Carat, Cut, Color, Clarity, and Dimensions ($x, y, z$, Depth %, Table %) with **5 instant reference presets** (e.g., *1.05 ct Investment Stone*, *0.95 ct Shy-Weight*, *1.00 ct Anomaly Test*).
 - **Sub-30ms High-Performance Caching:** Utilizes `@st.cache_resource` for instant bundle loading and `@st.cache_data` for recommendation queries, updating all 6 tabs in $<30\text{ ms}$.
 - **Interactive Visual Analytics:** 
